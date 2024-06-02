@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  todo-app:
+    image: diamol/ch06-todo-list
+    container_name: todo-app
+    ports:
+      - "80:80"
+    restart: always
+    depends_on:
+      - todo-db
+
+  todo-db:
+    image: postgres:16.2-alpine
+    container_name: todo-db
+    environment:
+      POSTGRES_USER: dbuser
+      POSTGRES_PASSWORD: test
+      POSTGRES_DB: todo-db
+    volumes:
+      - todo-db-data:/var/lib/postgresql/data
+    restart: always
+
+volumes:
+  todo-db-data:
+    driver: local
